@@ -1,54 +1,70 @@
-document.getElementById('subjectForm').addEventListener('submit', async (e) => {
-  e.preventDefault();
+// Array to store feedback data
+let feedbacks = [];
 
-  const rollNumber = document.getElementById('rollNumber').value.trim();
-  const name = document.getElementById('name').value.trim().toLowerCase();  
-  const selectedSubject = document.getElementById('subjectSelect').value;
+// Fetch student data from data.json
+let studentsData = [];
+let subjects = [];
 
-  const data = await fetchData();  
-  let result = null;
+// Fetch the data from the JSON file
+fetch('data.json')
+  .then(response => response.json())
+  .then(data => {
+    subjects = data.subjects; // Store subjects
+    studentsData = data.students; // Store students' data
+  })
+  .catch(error => console.error('Error fetching student data:', error));
 
-  // Search for student by roll number and name
-  data.students.forEach(student => {
-    if (student.roll_number === rollNumber && student.name.trim().toLowerCase() === name) {
-      result = student;
-    }
-  });
+// Handle form submission to check results
+document.getElementById("subjectForm").addEventListener("submit", function(event) {
+  event.preventDefault(); // Prevent form submission
 
-  const scoreDisplay = document.getElementById('scoreDisplay');
-  if (result) {
-    const subjectIndex = data.subjects.indexOf(selectedSubject); 
-    if (subjectIndex !== -1 && result.scores.hasOwnProperty(subjectIndex)) {
-      scoreDisplay.textContent = `Score: ${result.scores[subjectIndex]}`;
-    } else {
-      scoreDisplay.textContent = "Score data is missing for this subject.";
-    }
+  let rollNumber = document.getElementById("rollNumber").value;
+  let name = document.getElementById("name").value;
+  let subject = document.getElementById("subjectSelect").value;
+
+  // Find the student based on roll number and name
+  let student = studentsData.find(s => s.roll_number === rollNumber && s.name.toLowerCase() === name.toLowerCase());
+
+  if (student) {
+    // Get the index of the selected subject
+    let subjectIndex = subjects.indexOf(subject);
+    let score = student.scores[subjectIndex]; // Get the score based on the subject index
+    
+    document.getElementById("scoreDisplay").innerHTML = `
+      <h2>Result for ${student.name} (${student.roll_number})</h2>
+      <p><strong>Subject:</strong> ${subject.replace(/_/g, " ").toUpperCase()}</p>
+      <p><strong>Score:</strong> ${score}</p>`;
+
+    document.getElementById("feedbackSection").style.display = "block"; // Show feedback section
   } else {
-    scoreDisplay.textContent = "Student not found.";
+    document.getElementById("scoreDisplay").innerHTML = "<p>Student not found. Please check the roll number and name.</p>";
+    document.getElementById("feedbackSection").style.display = "none"; // Hide feedback section if student not found
   }
 });
 
-// Handle Feedback Submission
-document.getElementById('submitFeedback').addEventListener('click', async () => {
-  const rollNumber = document.getElementById('rollNumber').value.trim();
-  const feedback = document.getElementById('feedbackText').value.trim();
-  
-  if (!rollNumber || !feedback) {
-    alert("Please provide your roll number and describe the issue.");
-    return;
+// Handle feedback submission
+document.getElementById("submitFeedback").addEventListener("click", function() {
+  let rollNumber = document.getElementById("rollNumber").value;
+  let feedbackText = document.getElementById("feedbackText").value;
+
+  if (feedbackText.trim()) {
+    // Store feedback with roll number and feedback text
+    feedbacks.push({ roll_number: rollNumber, feedback: feedbackText });
+
+    // Display a success message
+    document.getElementById("feedbackResponse").innerHTML = "<p>Feedback submitted successfully!</p>";
+
+    // Display all feedbacks in a list format
+    let feedbackList = "<h3>All Feedbacks:</h3><ul>";
+    feedbacks.forEach(function(feedback) {
+      feedbackList += `<li>Roll No: ${feedback.roll_number}, Feedback: ${feedback.feedback}</li>`;
+    });
+    feedbackList += "</ul>";
+    document.getElementById("feedbackResponse").innerHTML += feedbackList;
+
+    // Clear feedback input field
+    document.getElementById("feedbackText").value = "";
+  } else {
+    document.getElementById("feedbackResponse").innerHTML = "<p>Please enter some feedback.</p>";
   }
-
-  const feedbackResponse = document.getElementById('feedbackResponse');
-  // Save feedback (In real-world applications, this could be sent to a backend)
-  feedbackResponse.textContent = "Thank you! Your feedback has been submitted.";
-
-  // You can store this feedback in a database or send it via email in a real scenario
-  console.log(`Feedback from Roll Number ${rollNumber}: ${feedback}`);
 });
-
-// Function to fetch JSON data
-async function fetchData() {
-  const response = await fetch('data.json');  
-  const data = await response.json();  
-  return data;
-}
