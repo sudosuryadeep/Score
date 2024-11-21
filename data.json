@@ -1,17 +1,26 @@
 [
   {
     "roll_number": "12345",
-    "name": "John",
-    "score": "85"
+    "name": "John Doe",
+    "subjects": {
+      "mathematics_engineering": 85,
+      "physics_engineering": 78,
+      "basic_economics_engineering": 90,
+      "basic_electrical_engineering": 88,
+      "professional_communication": 92,
+      "workshop": 80
+    }
   },
   {
-    "roll_number": "12346",
-    "name": "Alice",
-    "score": "90"
-  },
-  {
-    "roll_number": "12347",
-    "name": "Bob",
-    "score": "75"
+    "roll_number": "67890",
+    "name": "Jane Doe",
+    "subjects": {
+      "mathematics_engineering": 95,
+      "physics_engineering": 89,
+      "basic_economics_engineering": 93,
+      "basic_electrical_engineering": 91,
+      "professional_communication": 85,
+      "workshop": 88
+    }
   }
 ]
