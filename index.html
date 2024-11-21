@@ -3,16 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Student Results</title>
+  <title>Student Result</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
   <div class="container">
-    <h1>Student Result Lookup</h1>
+    <h1>Student Result Portal</h1>
+    
     <form id="subjectForm">
-      <input type="text" id="rollNumber" placeholder="Enter Roll Number" required>
-      <input type="text" id="name" placeholder="Enter Name" required>
+      <label for="rollNumber">Enter Roll Number:</label>
+      <input type="text" id="rollNumber" required>
+      
+      <label for="name">Enter Name:</label>
+      <input type="text" id="name" required>
+      
+      <label for="subjectSelect">Select Subject:</label>
       <select id="subjectSelect">
         <option value="mathematics_engineering">Mathematics Engineering</option>
         <option value="physics_engineering">Physics Engineering</option>
@@ -21,12 +26,20 @@
         <option value="professional_communication">Professional Communication</option>
         <option value="workshop">Workshop</option>
       </select>
-      <button type="submit">Get Result</button>
+      
+      <button type="submit">Check Result</button>
     </form>
 
-    <div id="result">
-      <p><strong>Score:</strong> <span id="scoreDisplay">-</span></p>
+    <div id="scoreDisplay"></div>
+
+    <!-- Feedback Section -->
+    <div id="feedbackSection">
+      <h3>If your score is missing or incorrect, please report it below:</h3>
+      <textarea id="feedbackText" placeholder="Describe the issue..."></textarea>
+      <button id="submitFeedback">Submit Feedback</button>
     </div>
+
+    <div id="feedbackResponse"></div>
   </div>
 
   <script src="script.js"></script>
