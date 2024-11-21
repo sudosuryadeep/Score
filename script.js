@@ -9,7 +9,7 @@ document.getElementById('subjectForm').addEventListener('submit', async (e) => {
   let result = null;
 
   // Search for student by roll number and name
-  data.forEach(student => {
+  data.students.forEach(student => {
     if (student.roll_number === rollNumber && student.name.toLowerCase() === name.toLowerCase()) {
       result = student;
     }
@@ -17,8 +17,9 @@ document.getElementById('subjectForm').addEventListener('submit', async (e) => {
 
   const scoreDisplay = document.getElementById('scoreDisplay');
   if (result) {
-    if (result.subjects[selectedSubject] !== undefined) {
-      scoreDisplay.textContent = result.subjects[selectedSubject];
+    const subjectIndex = data.subjects.indexOf(selectedSubject); // Get the subject index
+    if (subjectIndex !== -1 && result.scores.hasOwnProperty(subjectIndex)) {
+      scoreDisplay.textContent = result.scores[subjectIndex];
     } else {
       scoreDisplay.textContent = "Subject not found.";
     }
