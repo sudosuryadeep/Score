@@ -3,64 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Student Result Search</title>
+  <title>Student Results</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Search Student Result</h1>
-  
-  <form id="searchForm">
-    <input type="text" id="rollNumber" placeholder="Enter Roll Number" required>
-    <input type="text" id="name" placeholder="Enter Name" required>
-    <button type="submit">Search</button>
-  </form>
-  
-  <h2>Result</h2>
-  <table id="resultTable">
-    <thead>
-      <tr>
-        <th>Roll Number</th>
-        <th>Name</th>
-        <th>Score</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
 
-  <script>
-    async function fetchData() {
-      const response = await fetch('data.json');
-      const data = await response.json();
-      return data;
-    }
+  <div class="container">
+    <h1>Student Result Lookup</h1>
+    <form id="subjectForm">
+      <input type="text" id="rollNumber" placeholder="Enter Roll Number" required>
+      <input type="text" id="name" placeholder="Enter Name" required>
+      <select id="subjectSelect">
+        <option value="mathematics_engineering">Mathematics Engineering</option>
+        <option value="physics_engineering">Physics Engineering</option>
+        <option value="basic_economics_engineering">Basic Economics Engineering</option>
+        <option value="basic_electrical_engineering">Basic Electrical Engineering</option>
+        <option value="professional_communication">Professional Communication</option>
+        <option value="workshop">Workshop</option>
+      </select>
+      <button type="submit">Get Result</button>
+    </form>
 
-    function searchResult(rollNumber, name, data) {
-      return data.filter(student => 
-        student.roll_number === rollNumber && student.name.toLowerCase() === name.toLowerCase()
-      );
-    }
+    <div id="result">
+      <p><strong>Score:</strong> <span id="scoreDisplay">-</span></p>
+    </div>
+  </div>
 
-    document.getElementById('searchForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      
-      const rollNumber = document.getElementById('rollNumber').value;
-      const name = document.getElementById('name').value;
-      
-      const data = await fetchData();
-      const result = searchResult(rollNumber, name, data);
-      
-      const tableBody = document.querySelector("#resultTable tbody");
-      tableBody.innerHTML = '';  // Clear previous results
-
-      if (result.length > 0) {
-        result.forEach(row => {
-          const tr = document.createElement("tr");
-          tr.innerHTML = `<td>${row.roll_number}</td><td>${row.name}</td><td>${row.score}</td>`;
-          tableBody.appendChild(tr);
-        });
-      } else {
-        tableBody.innerHTML = '<tr><td colspan="3">No Result Found</td></tr>';
-      }
-    });
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
