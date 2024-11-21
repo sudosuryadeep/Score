@@ -1,26 +1,36 @@
-[
-  {
-    "roll_number": "12345",
-    "name": "John Doe",
-    "subjects": {
-      "mathematics_engineering": 85,
-      "physics_engineering": 78,
-      "basic_economics_engineering": 90,
-      "basic_electrical_engineering": 88,
-      "professional_communication": 92,
-      "workshop": 80
+{
+  "subjects": [
+    "mathematics_engineering",
+    "physics_engineering",
+    "basic_economics_engineering",
+    "basic_electrical_engineering",
+    "professional_communication",
+    "workshop"
+  ],
+  "students": [
+    {
+      "roll_number": "12345",
+      "name": "John Doe",
+      "scores": {
+        "0": 85,
+        "1": 78,
+        "2": 90,
+        "3": 88,
+        "4": 92,
+        "5": 80
+      }
+    },
+    {
+      "roll_number": "67890",
+      "name": "Jane Doe",
+      "scores": {
+        "0": 95,
+        "1": 89,
+        "2": 93,
+        "3": 91,
+        "4": 85,
+        "5": 88
+      }
     }
-  },
-  {
-    "roll_number": "67890",
-    "name": "Jane Doe",
-    "subjects": {
-      "mathematics_engineering": 95,
-      "physics_engineering": 89,
-      "basic_economics_engineering": 93,
-      "basic_electrical_engineering": 91,
-      "professional_communication": 85,
-      "workshop": 88
-    }
-  }
-]
+  ]
+}
