@@ -3,11 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Student Results</title>
+  <title>Student Result Search</title>
 </head>
 <body>
-  <h1>Student Results</h1>
-  <table id="resultsTable">
+  <h1>Search Student Result</h1>
+  
+  <form id="searchForm">
+    <input type="text" id="rollNumber" placeholder="Enter Roll Number" required>
+    <input type="text" id="name" placeholder="Enter Name" required>
+    <button type="submit">Search</button>
+  </form>
+  
+  <h2>Result</h2>
+  <table id="resultTable">
     <thead>
       <tr>
         <th>Roll Number</th>
@@ -22,16 +30,37 @@
     async function fetchData() {
       const response = await fetch('data.json');
       const data = await response.json();
-
-      const tableBody = document.querySelector("#resultsTable tbody");
-      data.forEach(student => {
-        const tr = document.createElement("tr");
-        tr.innerHTML = `<td>${student.roll_number}</td><td>${student.name}</td><td>${student.score}</td>`;
-        tableBody.appendChild(tr);
-      });
+      return data;
     }
 
-    fetchData();
+    function searchResult(rollNumber, name, data) {
+      return data.filter(student => 
+        student.roll_number === rollNumber && student.name.toLowerCase() === name.toLowerCase()
+      );
+    }
+
+    document.getElementById('searchForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const rollNumber = document.getElementById('rollNumber').value;
+      const name = document.getElementById('name').value;
+      
+      const data = await fetchData();
+      const result = searchResult(rollNumber, name, data);
+      
+      const tableBody = document.querySelector("#resultTable tbody");
+      tableBody.innerHTML = '';  // Clear previous results
+
+      if (result.length > 0) {
+        result.forEach(row => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `<td>${row.roll_number}</td><td>${row.name}</td><td>${row.score}</td>`;
+          tableBody.appendChild(tr);
+        });
+      } else {
+        tableBody.innerHTML = '<tr><td colspan="3">No Result Found</td></tr>';
+      }
+    });
   </script>
 </body>
 </html>
