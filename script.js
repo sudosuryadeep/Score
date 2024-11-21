@@ -1,8 +1,8 @@
 document.getElementById('subjectForm').addEventListener('submit', async (e) => {
   e.preventDefault();
 
-  const rollNumber = document.getElementById('rollNumber').value;
-  const name = document.getElementById('name').value;
+  const rollNumber = document.getElementById('rollNumber').value.trim();
+  const name = document.getElementById('name').value.trim().toLowerCase();  // Convert name to lowercase for case-insensitive comparison
   const selectedSubject = document.getElementById('subjectSelect').value;
 
   const data = await fetchData();  // Fetch the JSON data
@@ -10,7 +10,8 @@ document.getElementById('subjectForm').addEventListener('submit', async (e) => {
 
   // Search for student by roll number and name
   data.students.forEach(student => {
-    if (student.roll_number === rollNumber && student.name.toLowerCase() === name.toLowerCase()) {
+    // Compare roll number and name with trimmed and case-insensitive checks
+    if (student.roll_number === rollNumber && student.name.trim().toLowerCase() === name) {
       result = student;
     }
   });
