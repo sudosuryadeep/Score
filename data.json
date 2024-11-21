@@ -1,0 +1,17 @@
+[
+  {
+    "roll_number": "12345",
+    "name": "John",
+    "score": "85"
+  },
+  {
+    "roll_number": "12346",
+    "name": "Alice",
+    "score": "90"
+  },
+  {
+    "roll_number": "12347",
+    "name": "Bob",
+    "score": "75"
+  }
+]
